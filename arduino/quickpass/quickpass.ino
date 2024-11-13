@@ -52,5 +52,6 @@ void abrirBarrera() {
 }
 
 void cerrarBarrera() {
-  barrera.write(90);
+  delay(3000);
+  barrera.write(0);
 }
