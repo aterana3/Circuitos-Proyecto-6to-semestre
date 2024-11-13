@@ -98,7 +98,6 @@ class LicensePlateDetector:
                                 license_plate=license_plate,
                                 pass_date=timezone.now(),
                                 location_id=settings.LOCATION_ID,
-                                amount_due=settings.AMOUNT_DUE,
                                 image=image_path
                             )
                             self.serial_conn.send_data("SUCCESS")
