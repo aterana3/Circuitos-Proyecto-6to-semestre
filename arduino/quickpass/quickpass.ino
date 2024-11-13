@@ -17,7 +17,7 @@ void setup() {
   pinMode(sensorSalida, INPUT);
   pinMode(ledPin, OUTPUT);
   barrera.attach(servoPin);
-  barrera.write(0);
+  barrera.write(90);
 }
 
 void loop() {
@@ -47,10 +47,10 @@ void loop() {
 }
 
 void abrirBarrera() {
-  barrera.write(90);
+  barrera.write(0);
   delay(1000);
 }
 
 void cerrarBarrera() {
-  barrera.write(0);
+  barrera.write(90);
 }
