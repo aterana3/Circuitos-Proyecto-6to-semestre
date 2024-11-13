@@ -95,7 +95,7 @@ class LicensePlateDetector:
                             print(f"Imagen guardada en: {full_image_path}")
 
                             TollRecord.objects.create(
-                                license_plate=plate_text,
+                                license_plate=license_plate,
                                 pass_date=timezone.now(),
                                 location_id=settings.LOCATION_ID,
                                 amount_due=settings.AMOUNT_DUE,

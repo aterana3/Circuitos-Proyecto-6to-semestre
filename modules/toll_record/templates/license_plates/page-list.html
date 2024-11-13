@@ -1,0 +1,60 @@
+{% extends 'layouts/MainLayout.html' %}
+
+{% block title %}
+    QuickPass - Lista de matrículas
+{% endblock %}
+
+{% block content %}
+    <section class="mx-auto max-w-7xl w-full">
+        <div class="mx-auto w-full px-4">
+            {% include "license_plates/components/Search.html" %}
+            <a href="{% url 'toll_record:license_plate-create' %}"
+               class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-light transition-colors mt-4 mb-4">Agregar matrícula
+            </a>
+            {% if license_plates %}
+                <h2 class="font-semibold text-2xl md:text-3xl pb-4 md:pb-8 mt-4">Lista de matriculas</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                        <thead>
+                        <tr class="bg-gray-100 text-gray-700 text-left text-sm uppercase font-semibold tracking-wider">
+                            <th class="px-4 py-3 border-b">Matrícula</th>
+                            <th class="px-4 py-3 border-b">Fecha de creación</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in license_plates %}
+                            <tr class="text-gray-700 hover:bg-gray-100 transition-colors">
+                                <td class="px-4 py-3 border-b">{{ record.plate_number }}</td>
+                                <td class="px-4 py-3 border-b">{{ record.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if is_paginated %}
+                    <div class="py-4">
+                        <div class="flex justify-center space-x-2">
+                            {% if license_plates.has_previous %}
+                                <a href="?{% if request.GET.plate_number %}plate_number={{ request.GET.plate_number }}&{% endif %}page=1"
+                                   class="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300">Primero</a>
+                                <a href="?{% if request.GET.plate_number %}plate_number={{ request.GET.plate_number }}&{% endif %}page={{ license_plates.previous_page_number }}"
+                                   class="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300">Anterior</a>
+                            {% endif %}
+
+                            <span class="px-3 py-1 bg-gray-300 text-gray-700 rounded">{{ license_plates.number }} de {{ license_plates.paginator.num_pages }}</span>
+
+                            {% if license_plates.has_next %}
+                                <a href="?{% if request.GET.plate_number %}plate_number={{ request.GET.plate_number }}&{% endif %}page={{ license_plates.next_page_number }}"
+                                   class="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300">Siguiente</a>
+                                <a href="?{% if request.GET.plate_number %}plate_number={{ request.GET.plate_number }}&{% endif %}page={{ license_plates.paginator.num_pages }}"
+                                   class="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300">Último</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <h2 class="mt-4 font-semibold text-2xl md:text-3xl pb-4 md:pb-8">No se encontraron registros.</h2>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
