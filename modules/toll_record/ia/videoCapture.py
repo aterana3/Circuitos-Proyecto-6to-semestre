@@ -7,6 +7,7 @@ import threading
 from modules.toll_record.ia.serialConnection import SerialConnection
 from django.conf import settings
 from django.utils import timezone
+from modules.toll_record.models import LicensePlate
 from modules.toll_record.models import TollRecord
 
 
@@ -83,22 +84,27 @@ class LicensePlateDetector:
                 if self.is_capturing:
                     plate_text = self.process_frame(frame)
                     if plate_text:
-                        timestamp = timezone.now().strftime('%Y%m%d_%H%M%S')
-                        image_filename = f'{plate_text}_{timestamp}.jpg'
-                        image_path = os.path.join('toll_records', image_filename)
-                        full_image_path = os.path.join(settings.MEDIA_ROOT, image_path)
+                        license_plate = LicensePlate.objects.filter(plate_number=plate_text).first()
+                        if license_plate:
+                            timestamp = timezone.now().strftime('%Y%m%d_%H%M%S')
+                            image_filename = f'{plate_text}_{timestamp}.jpg'
+                            image_path = os.path.join('toll_records', image_filename)
+                            full_image_path = os.path.join(settings.MEDIA_ROOT, image_path)
 
-                        cv2.imwrite(full_image_path, frame)
-                        print(f"Imagen guardada en: {full_image_path}")
+                            cv2.imwrite(full_image_path, frame)
+                            print(f"Imagen guardada en: {full_image_path}")
 
-                        TollRecord.objects.create(
-                            license_plate=plate_text,
-                            pass_date=timezone.now(),
-                            location_id=settings.LOCATION_ID,
-                            amount_due=settings.AMOUNT_DUE,
-                            image=image_path
-                        )
-                        self.serial_conn.send_data("SUCCESS")
+                            TollRecord.objects.create(
+                                license_plate=plate_text,
+                                pass_date=timezone.now(),
+                                location_id=settings.LOCATION_ID,
+                                amount_due=settings.AMOUNT_DUE,
+                                image=image_path
+                            )
+                            self.serial_conn.send_data("SUCCESS")
+                        else:
+                            self.serial_conn.send_data("ERROR")
+
                         self.is_capturing = False
         except KeyboardInterrupt:
             print("\nDetención solicitada por el usuario")
