@@ -24,7 +24,7 @@
                         <tbody>
                         {% for record in toll_records %}
                             <tr class="text-gray-700 hover:bg-gray-100 transition-colors">
-                                <td class="px-4 py-3 border-b">{{ record.license_plate }}</td>
+                                <td class="px-4 py-3 border-b">{{ record.license_plate.plate_number }}</td>
                                 <td class="px-4 py-3 border-b">{{ record.pass_date }}</td>
                                 <td class="px-4 py-3 border-b">{{ record.location }}</td>
                                 <td class="px-4 py-3 border-b">
