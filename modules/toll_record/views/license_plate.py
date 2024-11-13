@@ -25,7 +25,6 @@ class LicensePlateListView(LoginRequiredMixin, ListView):
     model = LicensePlate
     template_name = 'license_plates/page-list.html'
     context_object_name = 'license_plates'
-    paginate_by = 10
 
     def get_queryset(self):
         self.query = Q()
