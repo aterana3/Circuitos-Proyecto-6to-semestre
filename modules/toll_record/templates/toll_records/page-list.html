@@ -18,8 +18,6 @@
                             <th class="px-4 py-3 border-b">Matrícula</th>
                             <th class="px-4 py-3 border-b">Fecha de Paso</th>
                             <th class="px-4 py-3 border-b">Ubicación</th>
-                            <th class="px-4 py-3 border-b">Importe</th>
-                            <th class="px-4 py-3 border-b">Pagado</th>
                             <th class="px-4 py-3 border-b">Imagen</th>
                         </tr>
                         </thead>
@@ -29,8 +27,6 @@
                                 <td class="px-4 py-3 border-b">{{ record.license_plate }}</td>
                                 <td class="px-4 py-3 border-b">{{ record.pass_date }}</td>
                                 <td class="px-4 py-3 border-b">{{ record.location }}</td>
-                                <td class="px-4 py-3 border-b">{{ record.amount_due }}</td>
-                                <td class="px-4 py-3 border-b">{{ record.paid|yesno:"Sí,No" }}</td>
                                 <td class="px-4 py-3 border-b">
                                     <button class="text-blue-500 hover:underline"
                                             onclick="document.getElementById('modal-{{ record.id }}').showModal()">Ver
